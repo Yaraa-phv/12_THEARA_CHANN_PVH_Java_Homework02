@@ -1,4 +1,6 @@
+import java.util.Date;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 public class displayBankMenu {
     static String Red = "\u001b[31;1m";
@@ -11,7 +13,7 @@ public class displayBankMenu {
 
     private CheckingAccount checkingAccount;
     private SavingAccount savingAccount;
-    private double amount;
+    private double inputAmount;
     private Account targetAcc;
 
     Scanner scanner = new Scanner(System.in);
@@ -52,9 +54,7 @@ public class displayBankMenu {
                     forDeleteAccount();
                     break;
                 case 7:
-                    System.out.println("Keep up a good work.👌✌");
-                    System.out.println("Susu ❤ Fighting 😁");
-                    System.out.println("Exiting the system...");
+                    System.out.println("Exiting the system ❤...");
                     break;
                 default:
                     System.out.println("Invalid option. Please try again.");
@@ -72,26 +72,49 @@ public class displayBankMenu {
     }
 
     private void chooseAccountForTransfer(){
-        System.out.println(White+"=====================================> "+LightYellow+"CREATE AN ACCOUNT"+White+" <====================================="+Reset);
+        System.out.println(White+"=====================================> "+LightYellow+"TRANSFER MONEY"+White+" <====================================="+Reset);
         System.out.println(Blue+"1. Checking Account\t->\tSavings Account"+Reset);
         System.out.println(Blue+"2. Savings Account\t->\tChecking Account"+Reset);
         System.out.println(Blue+"3. Back"+Reset);
         System.out.println(White+"---------------------------------------------------------------------------------------------------"+Reset);
     }
 
+//    private boolean inputAmountValidation(){
+//        String getInputAmount = Double.toString(inputAmount);
+//        if (getInputAmount.matches("\\d+")){
+//            return true;
+//        }else {
+//            System.out.println(Red+"Please input the right one!!!"+Reset);
+//            return false;
+//        }
+//    }
+
     private void forDeposit(){
         chooseAnAccount();
         System.out.print(LightYellow+"Choose an Account to Deposit\t:\t"+Reset);
         int choice = scanner.nextInt();
 
-        if (choice==1) {
-            checkingAccount.deposit(amount);
+        if (choice==1){
+            System.out.print(LightYellow+"Enter money to Deposit\t:\t"+Reset);
+            inputAmount = scanner.nextDouble();
+//            checkingAccount.deposit(inputAmount);
+            while (true){
+                checkingAccount.deposit(inputAmount);
+                break;
+            }
         } else if (choice==2) {
-            savingAccount.deposit(amount);
+            System.out.print(LightYellow+"Enter money to Deposit\t:\t"+Reset);
+            inputAmount = scanner.nextInt();
+//            savingAccount.deposit(inputAmount);
+            while (true) {
+                savingAccount.deposit(inputAmount);
+                break;
+            }
         }else {
             BankMenu();
         }
     }
+
 
     private void forWithdraw(){
         chooseAnAccount();
@@ -99,9 +122,19 @@ public class displayBankMenu {
         int choice = scanner.nextInt();
 
         if (choice==1) {
-            checkingAccount.withdraw(amount);
+            System.out.print(LightYellow+"Enter money to Withdraw\t:\t"+Reset);
+            inputAmount = scanner.nextDouble();
+            while (true){
+                checkingAccount.withdraw(inputAmount);
+                break;
+            }
         } else if (choice==2) {
-            savingAccount.withdraw(amount);
+            System.out.print(LightYellow+"Enter money to Withdraw\t:\t"+Reset);
+            inputAmount = scanner.nextDouble();
+            while (true){
+                savingAccount.withdraw(inputAmount);
+                break;
+            }
         }else {
             BankMenu();
         }
@@ -113,9 +146,19 @@ public class displayBankMenu {
         int choice = scanner.nextInt();
 
         if (choice==1) {
-            checkingAccount.transfer(amount,targetAcc);
+            System.out.print(LightYellow+"Enter money to Withdraw\t:\t"+Reset);
+            inputAmount = scanner.nextDouble();
+            while (true){
+                checkingAccount.transfer(inputAmount,targetAcc);
+                break;
+            }
         } else if (choice==2) {
-            savingAccount.transfer(amount, targetAcc);
+            System.out.print(LightYellow+"Enter money to Withdraw\t:\t"+Reset);
+            inputAmount = scanner.nextDouble();
+            while (true){
+                savingAccount.transfer(inputAmount,targetAcc);
+                break;
+            }
         }else {
             BankMenu();
         }
@@ -126,7 +169,7 @@ public class displayBankMenu {
         System.out.print(LightYellow+"Choose an Account you want to Delete\t:\t"+Reset);
         int choice = scanner.nextInt();
 
-        System.out.println("Are you sure you want to delete this accout? (Y/N)\t:\t");
+        System.out.print(LightYellow+"Are you sure you want to delete this accout? (Y/N)\t:\t"+Reset);
         String YesNo = scanner.next();
         if (YesNo.matches("^[yY]$")){
             if (choice==1){
@@ -146,11 +189,9 @@ public class displayBankMenu {
             } else {
                 System.out.println("Account Not Found!");
             }
+        }else {
+            BankMenu();
         }
-    }
-
-    private void confirmDeleted(){
-
     }
 
     private void CreateAnAccount(){

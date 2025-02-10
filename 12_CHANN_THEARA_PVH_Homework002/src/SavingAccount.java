@@ -17,7 +17,7 @@ class SavingAccount implements Account {
         this.PhoneNumber = phoneNumber;
     }
 
-    private String randomAccNumber(){
+    private String generateAccountNumber(){
         int accNum = random.nextInt(900000)+100000;
         return String.valueOf(accNum);
     }
@@ -36,8 +36,10 @@ class SavingAccount implements Account {
     public void deposit(double amount){
         if (amount > 0){
             balance += amount;
+            System.out.println(displayBankMenu.White+"\n=====================================> "+displayBankMenu.LightYellow+"SAVINGS ACCOUNT"+displayBankMenu.White+" <=====================================\n"+displayBankMenu.Reset);
             System.out.println("Received\t:\t$"+displayBankMenu.LightYellow+amount+displayBankMenu.Reset);
-            System.out.println("Total Amount\t:\t$"+displayBankMenu.LightYellow+amount+displayBankMenu.Reset);
+            System.out.println("Total Amount\t:\t$"+displayBankMenu.LightYellow+balance+displayBankMenu.Reset);
+            System.out.println(displayBankMenu.White+"---------------------------------------------------------------------------------------------------"+displayBankMenu.Reset);
         }
     }
 
@@ -46,8 +48,10 @@ class SavingAccount implements Account {
         double minimumBalance = balance*0.02;
         if (amount > 0 && (balance-amount)>=minimumBalance){
             balance -= amount;
+            System.out.println(displayBankMenu.White+"\n=====================================> "+displayBankMenu.LightYellow+"SAVINGS ACCOUNT"+displayBankMenu.White+" <=====================================\n"+displayBankMenu.Reset);
             System.out.println("Withdraw\t:\t$"+displayBankMenu.LightYellow+amount+displayBankMenu.Reset);
-            System.out.println("Total Balance\t:\t$"+displayBankMenu.LightYellow+amount+displayBankMenu.Reset);
+            System.out.println("Total Balance\t:\t$"+displayBankMenu.LightYellow+balance+displayBankMenu.Reset);
+            System.out.println(displayBankMenu.White+"---------------------------------------------------------------------------------------------------"+displayBankMenu.Reset);
             return true;
         }else {
             System.out.println(displayBankMenu.Red+"Cannot Transfer $"+amount+". At least $"+(balance*0.02)+" must remain in the account."+displayBankMenu.Reset);
@@ -59,9 +63,10 @@ class SavingAccount implements Account {
     public boolean transfer(double amount, Account targetAccount){
         if (amount>0 && amount<=balance){
             if (withdraw(amount)){
+                System.out.println(displayBankMenu.White+"\n=====================================> "+displayBankMenu.LightYellow+"SAVINGS ACCOUNT"+displayBankMenu.White+" <=====================================\n"+displayBankMenu.Reset);
                 System.out.println("Transferred\t:\t$"+amount);
                 System.out.println("From\t:\tSaving Account with ID\t:\t"+this.AccNumber);
-                System.out.println("To\t:\t"+(targetAccount instanceof CheckingAccount ? "Checking" : "Saving")+"Account with ID\t:\t"+targetAccount.getAccNumber());
+//                System.out.println("To\t:\t"+(targetAccount instanceof CheckingAccount ? "Checking" : "Saving")+"Account with ID\t:\t"+targetAccount.getAccNumber());
                 System.out.println("Total Remain\t:\t$"+balance);
                 System.out.println("⬇");
                 targetAccount.deposit(amount);
